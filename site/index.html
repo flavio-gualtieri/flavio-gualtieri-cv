@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flavio D. Gualtieri — CV</title>
+<meta name="description" content="CV of Flavio D. Gualtieri: PhD candidate in Mathematics at Queen Mary University of London, machine learning and quantitative modelling.">
+<meta property="og:title" content="Flavio D. Gualtieri — CV">
+<meta property="og:description" content="PhD candidate in Mathematics (QMUL). Machine learning, stochastic point processes, time-series forecasting.">
+<meta property="og:image" content="preview.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #eef0f3;
+    --bar: #ffffff;
+    --text: #1b1f24;
+    --muted: #5b6370;
+    --accent: #00008b;
+    --border: #d8dce2;
+    --paper-shadow: 0 1px 3px rgba(0,0,0,.08), 0 8px 30px rgba(0,0,0,.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #15171a;
+      --bar: #1e2125;
+      --text: #e6e8eb;
+      --muted: #9aa2ad;
+      --accent: #8fa8ff;
+      --border: #2e3238;
+      --paper-shadow: 0 8px 30px rgba(0,0,0,.5);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, system-ui, -apple-system, sans-serif;
+  }
+  header {
+    position: sticky; top: 0; z-index: 10;
+    background: var(--bar);
+    border-bottom: 1px solid var(--border);
+  }
+  .bar {
+    max-width: 900px; margin: 0 auto; padding: 12px 16px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  }
+  .name { font-weight: 600; font-size: 15px; }
+  .name span { color: var(--muted); font-weight: 400; }
+  nav { display: flex; gap: 8px; flex-wrap: wrap; }
+  nav a {
+    font-size: 13px; font-weight: 500; text-decoration: none;
+    color: var(--text); border: 1px solid var(--border); border-radius: 6px;
+    padding: 6px 12px;
+  }
+  nav a:hover { border-color: var(--accent); color: var(--accent); }
+  nav a.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  nav a.primary:hover { opacity: .9; color: #fff; }
+  @media (prefers-color-scheme: dark) { nav a.primary { color: #0b0d10; } nav a.primary:hover { color: #0b0d10; } }
+  main { max-width: 900px; margin: 0 auto; padding: 24px 16px 48px; }
+  .page {
+    position: relative; width: 100%;
+    background: #fff; box-shadow: var(--paper-shadow); border-radius: 2px;
+    aspect-ratio: 210 / 297;
+  }
+  .page canvas, .page img { display: block; width: 100%; height: auto; }
+  .page a.link { position: absolute; display: block; }
+  .page a.link:hover { background: rgba(0,0,139,.08); }
+  footer { text-align: center; font-size: 12px; color: var(--muted); padding-bottom: 32px; }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <div class="name">Flavio D. Gualtieri <span>· CV</span></div>
+    <nav>
+      <a class="primary" href="Flavio_Gualtieri_CV.pdf" download>Download PDF</a>
+      <a href="https://github.com/flavio-gualtieri">GitHub</a>
+      <a href="mailto:f.d.gualtieri@qmul.ac.uk">Email</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="page" id="page">
+    <!-- Fallback until PDF.js renders (or if it fails) -->
+    <a href="Flavio_Gualtieri_CV.pdf"><img src="preview.png" alt="CV of Flavio D. Gualtieri" id="fallback"></a>
+  </div>
+</main>
+<footer>
+  Built from <a href="https://github.com/flavio-gualtieri/resume">LaTeX source</a> · updated __BUILD_DATE__
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+(async () => {
+  const container = document.getElementById('page');
+  if (!window.pdfjsLib) return;
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+  let pdfPage;
+  try {
+    const pdf = await pdfjsLib.getDocument('Flavio_Gualtieri_CV.pdf').promise;
+    pdfPage = await pdf.getPage(1);
+  } catch (e) { return; } // keep the PNG fallback
+
+  const annotations = await pdfPage.getAnnotations();
+
+  async function render() {
+    const cssWidth = container.clientWidth;
+    const base = pdfPage.getViewport({ scale: 1 });
+    const scale = cssWidth / base.width;
+    const dpr = Math.min(window.devicePixelRatio || 1, 3);
+    const viewport = pdfPage.getViewport({ scale: scale * dpr });
+
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.floor(viewport.width);
+    canvas.height = Math.floor(viewport.height);
+    await pdfPage.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
+
+    // Clickable overlays for the PDF's own hyperlinks
+    const cssViewport = pdfPage.getViewport({ scale });
+    const links = annotations
+      .filter(a => a.subtype === 'Link' && a.url)
+      .map(a => {
+        const [x1, y1, x2, y2] = cssViewport.convertToViewportRectangle(a.rect);
+        const el = document.createElement('a');
+        el.className = 'link';
+        el.href = a.url;
+        if (!a.url.startsWith('mailto:')) { el.target = '_blank'; el.rel = 'noopener'; }
+        Object.assign(el.style, {
+          left: Math.min(x1, x2) + 'px', top: Math.min(y1, y2) + 'px',
+          width: Math.abs(x2 - x1) + 'px', height: Math.abs(y2 - y1) + 'px'
+        });
+        return el;
+      });
+
+    container.replaceChildren(canvas, ...links);
+  }
+
+  await render();
+  let t, lastWidth = container.clientWidth;
+  window.addEventListener('resize', () => {
+    clearTimeout(t);
+    t = setTimeout(() => {
+      if (container.clientWidth !== lastWidth) { lastWidth = container.clientWidth; render(); }
+    }, 150);
+  });
+})();
+</script>
+</body>
+</html>
