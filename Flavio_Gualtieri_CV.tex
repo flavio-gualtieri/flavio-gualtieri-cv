@@ -6,12 +6,14 @@
 \usepackage{enumitem}
 \usepackage{graphicx}
 \usepackage{fontawesome5}
+\usepackage{mathpazo}
 \usepackage{hyperref}
 
 \definecolor{darkblue}{RGB}{0,0,139}
 \geometry{left=1.25cm,top=1.2cm,right=1.05cm,bottom=0.8cm}
 \pagestyle{empty}
-\hypersetup{colorlinks=true,linkcolor=darkblue,filecolor=darkblue,urlcolor=darkblue}
+\hypersetup{colorlinks=true,linkcolor=darkblue,filecolor=darkblue,urlcolor=darkblue,
+  pdftitle={Flavio D. Gualtieri --- CV},pdfauthor={Flavio D. Gualtieri}}
 \urlstyle{same}
 \raggedright
 \setlength{\tabcolsep}{0pt}
@@ -47,13 +49,19 @@
 % CUSTOM COMMANDS
 %----------------------------------------------------------------------------------------
 
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\FILL}[1]{\textcolor{red}{\textbf{[#1]}}}
+\newcommand{\cvline}[1]{\vspace{0.3mm}{\small #1}\vspace{0.6mm}}
+\newcommand{\socialicon}[1]{\raisebox{-0.05em}{\resizebox{!}{1em}{#1}}}
+\newcommand*{\bigcdot}{\mathbin{\vcenter{\hbox{\scalebox{2}{$\cdot$}}}}}\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=*,labelsep=1mm,label={}]}
+
 \newcommand{\resumeSubheading}[4]{
   \vspace{0.5mm}\item
   \begin{tabular*}{\linewidth}[t]{l@{\extracolsep{\fill}}r}
     \textbf{#1} & \textit{\footnotesize #4} \\
     \textit{\footnotesize #3} & \footnotesize #2 \\
   \end{tabular*}
-  \vspace{-1mm}
+  \vspace{-1.4mm}
 }
 
 \newcommand{\resumeProject}[2]{
@@ -63,23 +71,11 @@
   \end{tabular*}\par
 }
 
-\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=*,labelsep=1mm,label={}]}
-\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
-\newcommand{\cvline}[1]{\vspace{0.3mm}{\small #1}\vspace{0.6mm}}
-
-% Result-first entry, plain paragraph (no bullet marker).
 \newcommand{\cvbullet}[1]{%
-  \vspace{0.4mm}{\small #1\par}\vspace{0.4mm}}
-
-% ============================================================================
-% PLACEHOLDER MACRO -- prints RED so you cannot miss one.
-% FILL IN OR DELETE EVERY \FILL{} BEFORE SUBMITTING.
-% When the document is clean, redefine as: \newcommand{\FILL}[1]{}
-% ============================================================================
-\newcommand{\FILL}[1]{\textcolor{red}{\textbf{[#1]}}}
-
-\newcommand{\socialicon}[1]{\raisebox{-0.05em}{\resizebox{!}{1em}{#1}}}
-\newcommand*{\bigcdot}{\mathbin{\vcenter{\hbox{\scalebox{2}{$\cdot$}}}}}
+  {\small\begin{itemize}[leftmargin=0.9em,labelwidth=0.6em,labelsep=0.3em,align=left,
+    label=$\circ$,topsep=0.4mm,partopsep=0pt,parsep=0pt,itemsep=0pt]
+  \item #1
+  \end{itemize}}}
 
 \begin{document}
 \fontfamily{ppl}\selectfont
@@ -97,7 +93,7 @@
   \small
   {\textcolor{darkblue}{\socialicon{\faGithub}}}\ \href{https://github.com/flavio-gualtieri}{flavio-gualtieri} $\bigcdot$
   \href{mailto:f.d.gualtieri@qmul.ac.uk}{f.d.gualtieri@qmul.ac.uk} $\bigcdot$
-  {\textcolor{darkblue}{+44 7767366389}}
+  \href{tel:+447767366389}{+44 7767 366389}
 \end{center}
 \vspace{-2mm}
 
@@ -111,25 +107,29 @@
   \resumeSubheading
   {Queen Mary University of London}
   {London, UK}
-  {Ph.D. in Mathematics $\bigcdot$ Supervised by Prof. Omer Bobrowski \& Prof. Primoz Skraba $\bigcdot$ Funded by Erlangen AI Hub}
-  {Dec 2025 - Dec 2028}
+  {Ph.D. in Mathematics $\bigcdot$ Supervisors: Omer Bobrowski \& Primo\v{z} Skraba $\bigcdot$ Funded by the \href{https://erlangenhub.ox.ac.uk}{Erlangen AI Hub}}
+  {Dec 2025 -- Dec 2028}
 
   \cvline{Researching deep learning models for generation and inference on stochastic point processes.}
+
+  %--------------------------------------------------------------------------
 
   \resumeSubheading
   {King's College London}
   {London, UK}
-  {M.S. in Theoretical Physics}
-  {Sep 2023 - Sep 2024}
+  {M.Sc. in Theoretical Physics}
+  {Sep 2023 -- Sep 2024}
 
   \cvline{\emph{Coursework}: quantum field theory, conformal field theory, Lie algebras, stochastic processes. 
-  \\ \emph{Dissertation}: Topological Surface Codes on Exactly Solvable Lattice Models.}
+  \\ \emph{Dissertation}: \href{https://flavio-gualtieri.github.io/msc-thesis/}{Topological Surface Codes on Exactly Solvable Lattice Models}.}
   
+  %--------------------------------------------------------------------------
+
   \resumeSubheading
   {University of Chicago}
-  {Chicago IL, USA}
+  {Chicago, USA}
   {B.S. in Mathematics \& B.A. in Physics}
-  {Sep 2019 - Jun 2023}
+  {Sep 2019 -- Jun 2023}
 
   \cvline{\emph{Coursework}: 
   abstract algebra,
@@ -152,15 +152,13 @@
 
   %--------------------------------------------------------------------------
 
-  % Repo is private: a link would 404 for readers. Re-add the icon if it goes public:
-  % \href{https://github.com/flavio-gualtieri/point-process-tda}{\textcolor{darkblue}{\socialicon{\faGithub}}}
   \resumeProject
   {Simulation-Based Inference for Spatial Point Processes}
   {Likelihood-Free Inference, Classification}
 
   \cvbullet{From one observed point pattern, a classifier picks the generating
-  family and a per-family neural estimator infers its parameters, using a bank of 900k simulated patterns.
-  Model inputs combine classical summary functions with topological features.}
+  family and a per-family neural estimator infers its parameters, trained on 900k simulations.
+  Inputs combine summary functions and topological features.}
 
   \cvbullet{Designed evaluation method: simulate new patterns using the model's output and score against the input
   with a kernel score on local configurations, giving a score from 0 (random fit) to 1 (true model). The model
@@ -214,34 +212,34 @@
   \resumeSubheading
   {PwC Data \& AI}
   {Milan, Italy}
-  {Data Scientist Associate}
-  {Dec 2024 - Dec 2025}
+  {Data Scientist (Associate)}
+  {Dec 2024 -- Dec 2025}
 
   \cvbullet{Built an outage-detection pipeline, deployed on the client's AWS, processing 5 GB of telemetry
   per day. An XGBoost time-series model forecasts expected live user counts; a drop below the forecast flags a possible
-  outage and triggers DBSCAN density-based clustering on the locations of recently disconnected users. Cluster sizes are
+  outage and triggers DBSCAN clustering on the locations of recently disconnected users. Cluster sizes are
   compared with each area's historical norm, with thresholds tuned by grid search, to separate genuine localized
-  outages from background noise. Cut detection delay from 6 hrs to 30 min.}
+  outages from background noise. Cut detection delay from 6 h to 30 min.}
 
   \cvbullet{Engineered new categorical and numerical features for a probabilistic deep-learning model forecasting shipment
   arrival times: a dense neural network (TensorFlow) outputs Weibull shape and scale parameters, trained with a negative
   log-likelihood loss, giving a full distribution over arrival times. Tuned hyperparameters
-  with Optuna to $85\%$ held-out coverage.
-  Computed global SHAP (Shapley-value) feature importances and presented them to the 
-  client to provide model explainability.}
+  with Optuna to 85\% held-out coverage.
+  Presented SHAP feature importances to the client for model explainability.}
+
+  %--------------------------------------------------------------------------
 
   \resumeSubheading
   {Center for RISC, University of Chicago}
-  {Chicago IL, USA}
+  {Chicago, USA}
   {Data Science Intern}
-  {Sep 2022 - May 2023}
+  {Sep 2022 -- May 2023}
 
   \cvbullet{Built the declustering stage of a pipeline auditing a geospatial-intelligence
   firm's public earthquake predictions against live USGS data. Declustering reduces each
-  seismic sequence to its mainshock, so predictions cannot score a hit on an aftershock by chance.
-  Designed a rule-based clustering method from scratch:
-  events are grouped only if \emph{every} pair lies within 50 miles and 3 days (simple
-  chaining merges distinct sequences), and the largest-magnitude event in each group is taken as
+  seismic sequence to one `mainshock', so predictions cannot score a hit on an aftershock by chance.
+  Designed a rule-based clustering method:
+  events are grouped only if \emph{every} pair lies within 50 miles and 3 days, and the largest-magnitude event in each group is
   the mainshock.}
 
 \resumeSubHeadingListEnd
@@ -267,13 +265,13 @@ gradient boosting,
 statistical inference,
 anomaly detection,
 time-series forecasting,
-Monte-Carlo methods,
+Monte Carlo methods,
 stochastic point processes,
 topological data analysis
 \\[0.5mm]
 \textbf{Compute:} Git, AWS [\emph{EC2, S3}], Slurm HPC\\[0.5mm]
 \textbf{Languages:} English \& Italian [\emph{native}]\\[0.5mm]
-\textbf{Interests:} World capitals
+\textbf{Interests:} world capitals
 \end{tabular}
 }
 \end{sideSection}
